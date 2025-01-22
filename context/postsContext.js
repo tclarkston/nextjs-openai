@@ -12,8 +12,36 @@ export const PostsProvider = ({ children }) => {
     setPosts(postsFromSSR);
   }, []);
 
+  const getPosts = useCallback(
+    async (lastPostDate) => {
+      const response = await fetch(`/api/getPosts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lastPostDate: posts[posts.length - 1]?.created,
+        }),
+      });
+      const json = await response.json();
+      const postResults = json || [];
+      console.log("POSTS: ", postResults);
+      setPosts((value) => {
+        const newPosts = [...value];
+        postResults.forEach((post) => {
+          const existingPost = newPosts.find((p) => p._id === post._id);
+          if (!existingPost) {
+            newPosts.push(post);
+          }
+        });
+        return newPosts;
+      });
+    },
+    [posts]
+  );
+
   return (
-    <PostsContext.Provider value={{ posts, setPostdFromSSR }}>
+    <PostsContext.Provider value={{ posts, setPostdFromSSR, getPosts }}>
       {children}
     </PostsContext.Provider>
   );

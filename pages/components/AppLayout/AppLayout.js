@@ -14,7 +14,7 @@ export const AppLayout = ({
   postId,
 }) => {
   const { user } = useUser();
-  const { setPostdFromSSR, posts } = useContext(PostsContext);
+  const { setPostdFromSSR, posts, getPosts } = useContext(PostsContext);
 
   useEffect(() => {
     setPostdFromSSR(postsFromSSR);
@@ -43,10 +43,18 @@ export const AppLayout = ({
               }`}
             >
               <div className="font-bold">{post.topic}</div>
-              <div className="text-sm">{post.content}</div>
             </Link>
           ))}
+          <div
+            className="hover:underline text-slate-400 text-center cursor-pointer text-sm mt-3"
+            onClick={() => {
+              getPosts(posts[posts?.length - 1]?.created);
+            }}
+          >
+            Load More Posts
+          </div>
         </div>
+
         <div className="bg-cyan-800 flex items-center gap-2 border-t border-t-black/50 h-20 px-2">
           {!!user ? (
             <>

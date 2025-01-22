@@ -31,8 +31,8 @@ export const getAppProps = async (ctx) => {
     availableTokens: user.availableTokens,
     posts: posts.map(({ created, _id, userId, updated, ...rest }) => ({
       id: _id.toString(),
-      created: new Date(created).toLocaleDateString(),
-      updated: new Date(updated).toLocaleDateString(),
+      created: created.toISOString(),
+      updated: updated.toISOString(),
       ...rest,
     })),
     postId: ctx.params?.id || null,
