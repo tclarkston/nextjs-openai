@@ -8,7 +8,7 @@ export default PostsContext;
 export const PostsProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
 
-  const setPostdFromSSR = useCallback((postsFromSSR = []) => {
+  const setPostsFromSSR = useCallback((postsFromSSR = []) => {
     setPosts(postsFromSSR);
   }, []);
 
@@ -41,7 +41,7 @@ export const PostsProvider = ({ children }) => {
   );
 
   return (
-    <PostsContext.Provider value={{ posts, setPostdFromSSR, getPosts }}>
+    <PostsContext.Provider value={{ posts, setPostsFromSSR, getPosts }}>
       {children}
     </PostsContext.Provider>
   );

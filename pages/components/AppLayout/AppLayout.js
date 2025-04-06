@@ -14,11 +14,11 @@ export const AppLayout = ({
   postId,
 }) => {
   const { user } = useUser();
-  const { setPostdFromSSR, posts, getPosts } = useContext(PostsContext);
+  const { setPostsFromSSR, posts, getPosts } = useContext(PostsContext);
 
   useEffect(() => {
-    setPostdFromSSR(postsFromSSR);
-  }, [postsFromSSR, setPostdFromSSR]);
+    setPostsFromSSR(postsFromSSR);
+  }, [postsFromSSR, setPostsFromSSR]);
 
   return (
     <div className="grid grid-cols-[300px_1fr] h-screen max-h-screen">
