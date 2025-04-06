@@ -42,11 +42,11 @@ export const AppLayout = ({
                 postId === post.id ? "bg-white/30 border-white" : ""
               }`}
             >
-              <div className="font-bold">{post.topic}</div>
+              <div>{post.topic}</div>
             </Link>
           ))}
           <div
-            className="hover:underline text-slate-400 text-center cursor-pointer text-sm mt-3"
+            className="hover:underline text-slate-400 text-center cursor-pointer text-sm mt-4"
             onClick={() => {
               getPosts(posts[posts?.length - 1]?.created);
             }}
