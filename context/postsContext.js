@@ -7,6 +7,7 @@ export default PostsContext;
 
 export const PostsProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
+  const [noMorePosts, setNoMorePosts] = useState(false);
 
   const setPostsFromSSR = useCallback((postsFromSSR = []) => {
     setPosts(postsFromSSR);
@@ -23,7 +24,11 @@ export const PostsProvider = ({ children }) => {
       });
       const json = await request.json();
       const postResults = json.posts || [];
-      console.log("POSTS: ", postResults);
+      console.log("postResults length: ", postResults.length);
+      if (postResults.length < 5) {
+        setNoMorePosts(true);
+      }
+
       setPosts((value) => {
         const newPosts = [...value];
         postResults.forEach((post) => {
@@ -39,7 +44,7 @@ export const PostsProvider = ({ children }) => {
   );
 
   return (
-    <PostsContext.Provider value={{ posts, setPostsFromSSR, getPosts }}>
+    <PostsContext.Provider value={{ posts, setPostsFromSSR, getPosts, noMorePosts }}>
       {children}
     </PostsContext.Provider>
   );

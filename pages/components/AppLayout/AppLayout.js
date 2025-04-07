@@ -14,7 +14,7 @@ export const AppLayout = ({
   postId,
 }) => {
   const { user } = useUser();
-  const { setPostsFromSSR, posts, getPosts } = useContext(PostsContext);
+  const { setPostsFromSSR, posts, getPosts, noMorePosts } = useContext(PostsContext);
 
   useEffect(() => {
     setPostsFromSSR(postsFromSSR);
@@ -37,7 +37,7 @@ export const AppLayout = ({
           {posts.map((post) => (
             <Link
               key={post.id}
-              href={`/post/${post.id}`}
+              href={`/post/${post._id}`}
               className={`block border border-white/0 m-2 p-2 bg-white/10 rounded-sm ${
                 postId === post.id ? "bg-white/30 border-white" : ""
               }`}
@@ -45,16 +45,22 @@ export const AppLayout = ({
               <div>{post.topic}</div>
             </Link>
           ))}
+          { noMorePosts && (
+            <div className="text-center text-slate-400 text-sm mt-4">
+              No more posts
+            </div>
+          )}
+          {!noMorePosts && (
           <div
-            className="hover:underline text-slate-400 text-center cursor-pointer text-sm mt-4"
-            onClick={() => {
-              getPosts(posts[posts?.length - 1]?.created);
-            }}
-          >
-            Load More Posts
-          </div>
+              className="hover:underline text-slate-400 text-center cursor-pointer text-sm mt-4"
+              onClick={() => {
+                getPosts(posts[posts?.length - 1]?.created);
+              }}
+            >
+              Load More Posts
+            </div>
+          )}
         </div>
-
         <div className="bg-cyan-800 flex items-center gap-2 border-t border-t-black/50 h-20 px-2">
           {!!user ? (
             <>
@@ -78,8 +84,9 @@ export const AppLayout = ({
             <Link href="/api/auth/login">Login</Link>
           )}
         </div>
-      </div>
-      {children}
+        </div>
+
+          {children}
     </div>
   );
 };
